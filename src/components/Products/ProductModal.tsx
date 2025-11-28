@@ -1,5 +1,6 @@
-import { useCart } from "../context/CartContext";
-import type { Product } from "../data/products";
+import { useCart } from "../../context/CartContext";
+import type { Product } from "../../data/products";
+import { IoMdClose } from "react-icons/io";
 
 export default function ProductModal({
   product,
@@ -12,10 +13,7 @@ export default function ProductModal({
 
   return (
     <div
-      className='
-      fixed inset-0 bg-black/50 backdrop-blur-sm 
-      flex justify-center items-center z-50
-    '
+      className='fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 animate-fadeIn'
       onClick={onClose}
     >
       <div
@@ -26,7 +24,7 @@ export default function ProductModal({
           className='absolute top-3 right-3 text-gray-400 hover:text-black'
           onClick={onClose}
         >
-          ✕
+          <IoMdClose />
         </button>
 
         <img

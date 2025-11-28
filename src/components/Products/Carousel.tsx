@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ProductCard from "./ProductCard";
-import { products, type Product } from "../data/products";
+import { products, type Product } from "../../data/products";
+import { useCarouselNavigation } from "../../hooks/useCarouselNavigation";
 
 export default function Carousel({
   onSelectProduct,
@@ -27,46 +28,37 @@ export default function Carousel({
     const container = containerRef.current;
     if (!container) return;
 
+    let timeout: number | null = null;
+
     const handleScroll = () => {
-      const cardWidth = container.clientWidth / slidesPerView;
+      if (timeout) clearTimeout(timeout);
+      timeout = window.setTimeout(() => {
+        const cardWidth = container.clientWidth / slidesPerView;
 
-      const page = Math.round(
-        container.scrollLeft / (cardWidth * slidesPerView)
-      );
+        const page = Math.round(
+          container.scrollLeft / (cardWidth * slidesPerView)
+        );
 
-      if (page !== currentPage) {
         setCurrentPage(page);
-      }
+      }, 120);
     };
 
     container.addEventListener("scroll", handleScroll);
 
-    return () => container.removeEventListener("scroll", handleScroll);
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+      if (timeout) clearTimeout(timeout);
+    };
   }, [slidesPerView, currentPage]);
 
-  const totalPages = Math.ceil(products.length / slidesPerView);
-
-  const scrollToPage = (page: number) => {
-    if (!containerRef.current) return;
-
-    const cardWidth = containerRef.current.clientWidth / slidesPerView;
-    const scrollLeft = page * cardWidth * slidesPerView;
-
-    containerRef.current.scrollTo({
-      left: scrollLeft,
-      behavior: "smooth",
-    });
-
-    setCurrentPage(page);
-  };
-
-  const nextPage = () => {
-    if (currentPage < totalPages - 1) scrollToPage(currentPage + 1);
-  };
-
-  const prevPage = () => {
-    if (currentPage > 0) scrollToPage(currentPage - 1);
-  };
+  const { totalPages, scrollToPage, nextPage, prevPage } =
+    useCarouselNavigation(
+      containerRef,
+      slidesPerView,
+      products.length,
+      currentPage,
+      setCurrentPage
+    );
 
   return (
     <div className='w-full select-none'>
@@ -91,36 +83,39 @@ export default function Carousel({
         ))}
       </div>
 
-      <div className='flex justify-center mt-4 gap-2'>
-        {Array.from({ length: totalPages }).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => scrollToPage(index)}
-            className={`
+      {totalPages > 1 && (
+        <>
+          <div className='flex justify-center mt-4 gap-2'>
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => scrollToPage(index)}
+                className={`
               w-3 h-3 rounded-full transition
               ${currentPage === index ? "bg-blue-600" : "bg-gray-300"}
             `}
-          />
-        ))}
-      </div>
+              />
+            ))}
+          </div>
+          <div className='flex justify-center mt-3 gap-4'>
+            <button
+              onClick={prevPage}
+              disabled={currentPage === 0}
+              className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-40'
+            >
+              Prev
+            </button>
 
-      <div className='flex justify-center mt-3 gap-4'>
-        <button
-          onClick={prevPage}
-          disabled={currentPage === 0}
-          className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-40'
-        >
-          Prev
-        </button>
-
-        <button
-          onClick={nextPage}
-          disabled={currentPage === totalPages - 1}
-          className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-40'
-        >
-          Next
-        </button>
-      </div>
+            <button
+              onClick={nextPage}
+              disabled={currentPage === totalPages - 1}
+              className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-40'
+            >
+              Next
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }

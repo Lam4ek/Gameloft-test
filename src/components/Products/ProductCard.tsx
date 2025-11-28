@@ -1,5 +1,5 @@
-import type { Product } from "../data/products";
-import { useCart } from "../context/CartContext";
+import type { Product } from "../../data/products";
+import { useCart } from "../../context/CartContext";
 
 type Props = {
   product: Product;
@@ -12,7 +12,8 @@ export default function ProductCard({ product, onClick }: Props) {
   return (
     <div
       onClick={() => onClick?.(product)}
-      className='cursor-pointer bg-white rounded-xl h-full shadow-sm p-4 flex flex-col transition hover:shadow-md'
+      className='cursor-pointer bg-white rounded-xl h-full shadow-sm p-4 flex flex-col 
+transition hover:shadow-lg hover:-translate-y-1'
     >
       <img
         src={product.image}

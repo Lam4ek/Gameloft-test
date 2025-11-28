@@ -1,4 +1,4 @@
-import { useCart } from "../context/CartContext";
+import { useCart } from "../../context/CartContext";
 import { IoMdClose } from "react-icons/io";
 
 type Props = {
