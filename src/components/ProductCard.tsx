@@ -3,13 +3,17 @@ import { useCart } from "../context/CartContext";
 
 type Props = {
   product: Product;
+  onClick?: (product: Product) => void;
 };
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product, onClick }: Props) {
   const { addToCart } = useCart();
 
   return (
-    <div className='bg-white rounded-xl h-full shadow-sm p-4 flex flex-col transition hover:shadow-md'>
+    <div
+      onClick={() => onClick?.(product)}
+      className='cursor-pointer bg-white rounded-xl h-full shadow-sm p-4 flex flex-col transition hover:shadow-md'
+    >
       <img
         src={product.image}
         alt={product.title}
@@ -23,7 +27,10 @@ export default function ProductCard({ product }: Props) {
         <span className='font-bold text-xl'>€{product.price}</span>
 
         <button
-          onClick={() => addToCart(product)}
+          onClick={(e) => {
+            e.stopPropagation();
+            addToCart(product);
+          }}
           className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition'
         >
           Add to Cart

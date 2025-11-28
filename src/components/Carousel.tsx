@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import ProductCard from "./ProductCard";
-import { products } from "../data/products";
+import { products, type Product } from "../data/products";
 
-export default function Carousel() {
+export default function Carousel({
+  onSelectProduct,
+}: {
+  onSelectProduct?: (product: Product) => void;
+}) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [slidesPerView, setSlidesPerView] = useState(3);
   const [currentPage, setCurrentPage] = useState(0);
@@ -82,7 +86,7 @@ export default function Carousel() {
               flexShrink: 0,
             }}
           >
-            <ProductCard product={product} />
+            <ProductCard product={product} onClick={onSelectProduct} />
           </div>
         ))}
       </div>
