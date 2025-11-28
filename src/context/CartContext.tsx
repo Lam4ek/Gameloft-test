@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import type { Product } from "../data/products";
+import { ToastContainer, toast } from "react-toastify";
 
 export type CartItem = {
   product: Product;
@@ -18,6 +19,7 @@ type CartContextType = {
 };
 
 const CartContext = createContext<CartContextType | null>(null);
+const success = () => toast("Product has been added to your cart");
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -32,6 +34,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       }
       return [...prev, { product, quantity: 1 }];
     });
+    success();
   };
 
   const removeFromCart = (productId: number) => {
@@ -77,6 +80,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
+      <ToastContainer />
     </CartContext.Provider>
   );
 };
