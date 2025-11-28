@@ -76,7 +76,7 @@ export default function Carousel() {
         {products.map((product) => (
           <div
             key={product.id}
-            className='snap-start p-3'
+            className='snap-start p-3 max-h-[70vh]'
             style={{
               width: `${100 / slidesPerView}%`,
               flexShrink: 0,

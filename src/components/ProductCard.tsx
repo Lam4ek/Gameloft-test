@@ -9,7 +9,7 @@ export default function ProductCard({ product }: Props) {
   const { addToCart } = useCart();
 
   return (
-    <div className='bg-white rounded-xl shadow-sm p-4 flex flex-col transition hover:shadow-md'>
+    <div className='bg-white rounded-xl h-full shadow-sm p-4 flex flex-col transition hover:shadow-md'>
       <img
         src={product.image}
         alt={product.title}

@@ -1,4 +1,5 @@
 import { useCart } from "../context/CartContext";
+import { IoMdClose } from "react-icons/io";
 
 type Props = {
   isOpen: boolean;
@@ -10,7 +11,7 @@ export default function Cart({ isOpen, onClose }: Props) {
 
   return (
     <div
-      className={`fixed top-0 right-0 h-full w-80 bg-white shadow-xl transition-transform duration-300 z-50 p-4 
+      className={`fixed h-full top-0 right-0 w-80 bg-white shadow-xl transition-transform duration-300 z-50 p-4 
       ${isOpen ? "translate-x-0" : "translate-x-full"}`}
     >
       <div className='flex justify-between items-center mb-4'>
@@ -19,14 +20,14 @@ export default function Cart({ isOpen, onClose }: Props) {
           onClick={onClose}
           className='text-gray-600 hover:text-black text-xl'
         >
-          ✕
+          <IoMdClose />
         </button>
       </div>
 
       {items.length === 0 ? (
         <p className='text-gray-500 mt-10 text-center'>Your cart is empty.</p>
       ) : (
-        <div className='space-y-4 max-h-[70vh] overflow-y-auto pr-2'>
+        <div className='space-y-4 overflow-y-auto pr-2'>
           {items.map((item) => (
             <div key={item.product.id} className='border-b pb-3'>
               <div className='flex justify-between'>
@@ -35,7 +36,7 @@ export default function Cart({ isOpen, onClose }: Props) {
                   onClick={() => removeFromCart(item.product.id)}
                   className='text-gray-400 hover:text-black'
                 >
-                  X
+                  <IoMdClose />
                 </button>
               </div>
 
