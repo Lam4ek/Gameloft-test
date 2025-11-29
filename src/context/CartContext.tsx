@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import type { Product } from "../data/products";
 import { ToastContainer, toast } from "react-toastify";
@@ -22,7 +22,14 @@ const CartContext = createContext<CartContextType | null>(null);
 const success = () => toast("Product has been added to your cart");
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(() => {
+    const saved = localStorage.getItem("cart");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(items));
+  }, [items]);
 
   const addToCart = (product: Product) => {
     setItems((prev) => {
