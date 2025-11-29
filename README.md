@@ -1,73 +1,79 @@
-# React + TypeScript + Vite
+# Frontend Developer Test — Product Carousel + Shopping Cart
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is an implementation of the Frontend Developer Test assignment.  
+It includes a responsive product carousel, a fully interactive shopping cart,  
+and a clean user-focused UI powered by React and Tailwind CSS.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## React Compiler
+- **React 18**
+- **TypeScript**
+- **Vite**
+- **Tailwind CSS**
+- **Context API (React State Management)**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Part 1 — Responsive Product Carousel
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The application includes a fully responsive carousel that displays static products.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Features:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Desktop (≥ 1024px):** 3 products per row
+- **Tablet (≥ 768px):** 2 products per row
+- **Mobile (< 768px):** 1 product per row
+- Smooth resizing transitions
+- Snap-based horizontal scrolling
+- Pagination dots based on the number of pages
+- Product cards contain:
+  - Image
+  - Title
+  - Description
+  - Price
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Each product card can be clicked to open a **product details modal**.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Part 2 — Shopping Cart
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Features:
+
+- Add products to cart
+- Increase/decrease quantity
+- Remove items
+- Automatic subtotal calculation
+- **10% discount** on items with quantity > 5
+- Total price calculation
+- Cart stored in React Context
+- **Cart persists in localStorage across page reloads**
+- Animated badge on cart button showing current quantity
+- Cart drawer (side panel)
+
+---
+
+## Usability & UI/UX Focus
+
+- Clean modern interface using Tailwind CSS
+- Smooth animations
+- Mobile-friendly layout
+- Modal for detailed product view
+- "Add to cart" immediately updates cart badge
+- Prevents accidental modal triggers (button click stops propagation)
+
+---
+
+## Discount Logic
+
+If a product quantity exceeds **5**, a **10% discount** is automatically applied:
+This discount is included in the final total price.
+
+---
+
+## Installation
+
+npm install
+npm run dev
