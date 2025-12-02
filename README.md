@@ -77,3 +77,7 @@ This discount is included in the final total price.
 
 npm install
 npm run dev
+
+##deploy
+
+https://lam4ek.github.io/Gameloft-test/
